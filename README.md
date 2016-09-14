@@ -5,7 +5,9 @@ An e-commerce application written in the MEAN stack.
 
 ### Usage:
 `npm install`   - Installs all back-end dependencies in "package.json"
+
 `bower install` - Installs all front-end dependencies in "bower.json"
+
 `node index.js` - Runs the server locally; listens on port 31337.
 
 ### Dependencies:
