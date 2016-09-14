@@ -1,0 +1,28 @@
+{
+  "name": "software-engineering",
+  "version": "1.0.0",
+  "description": "CMSC 447 Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dakell2/se-project.git"
+  },
+  "author": "Daniel Kelly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dakell2/se-project/issues"
+  },
+  "homepage": "https://github.com/dakell2/se-project#readme",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "bootstrap": "^3.3.7",
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "passport": "^0.3.2",
+    "stripe": "^4.10.0"
+  }
+}
