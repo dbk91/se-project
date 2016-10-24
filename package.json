@@ -4,6 +4,7 @@
   "description": "CMSC 447 Project",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,9 +18,6 @@
   },
   "homepage": "https://github.com/dakell2/se-project#readme",
   "dependencies": {
-    "angular": "^1.5.8",
-    "angular-route": "^1.5.8",
-    "bootstrap": "^3.3.7",
     "ejs": "^2.5.2",
     "express": "^4.14.0",
     "passport": "^0.3.2",
