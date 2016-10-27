@@ -1,0 +1,22 @@
+# OS
+# ==
+.DS_STORE
+
+# Node and related ecosystem
+# ==========================
+node_modules/
+public/lib/
+
+# General
+# =======
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.tmp
+*.bak
+*.swp
+logs/
+build/
