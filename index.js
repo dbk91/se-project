@@ -5,10 +5,14 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Load the application dependencies
-var express = require('./config/express');
+const express  = require('./config/express'),
+      mongoose = require('./config/mongoose');
+
+// Instantiate the database
+const db = mongoose();
 
 // Instantiate the application
-var app = express();
+const app = express(db);
 
 // Listen on specified port
 app.listen(31337);

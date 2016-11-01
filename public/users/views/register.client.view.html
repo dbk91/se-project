@@ -1,0 +1,76 @@
+<!-- Navigation bar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+      <a href="" class="navbar-brand">TextForSale</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="" class="scroll">Home</a></li>
+        <li><a href="" class="scroll">Link 1</a></li>
+        <li><a href="" class="scroll">Link 2</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/#/" data-toggle="modal" data-target=".loginModal">Login</a></li>
+        <li><a href="/#/users/register">Register</a></li>
+        <li>
+          <div class="navbar-text">
+            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+            <span class="badge">0</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Register Your Account</h2>
+      <hr>
+    </div>
+    <!-- Load this section with the User's Controller -->
+    <section data-ng-controller="UsersController">
+      <!-- Load the method for registration -->
+      <form data-ng-submit="register()" novalidate>
+        <div class="col-md-4 col-md-offset-4">
+          <div class="form-group">
+            <label>E-mail Address</label>
+            <input class="form-control" type="email" data-ng-model="email" data-ng-disabled="disable" placeholder="Register With Your UMBC E-mail">
+          </div>
+          <p class="text-danger" data-ng-bind="errors.email.message"></p>
+          <div class="form-group">
+            <label>Password</label>
+            <input class="form-control" type="password" data-ng-model="password" data-ng-disabled="disable" placeholder="Enter A Password">
+          </div>
+          <p class="text-danger" data-ng-bind="errors.password.message"></p>
+          <div class="form-group">
+            <label>First Name</label>
+            <input class="form-control" type="text" data-ng-model="firstName" data-ng-disabled="disable" placeholder="Enter Your First Name">
+          </div>
+          <p class="text-danger" data-ng-bind="errors['name.first'].message"></p>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input class="form-control" type="text" data-ng-model="lastName" data-ng-disabled="disable" placeholder="Enter Your Last Name">
+          </div>
+          <p class="text-danger" data-ng-bind="errors['name.last'].message"></p>
+          <!-- Form Return Message -->
+          <div>
+            <p class="text-center" data-ng-class="success == true ? 'text-success' : 'text-danger'" data-ng-bind="message"></p>
+          </div>
+          <div class="form-group text-center">
+            <button class="btn btn-lg btn-primary" data-ng-disabled="disable">
+              <!-- Normal button text -->
+              <span ng-hide="disable">Register</span>
+              <!-- Loading spinner while form is disabled -->
+              <i class="fa fa-spinner fa-spin" ng-show="disable"></i>
+              <!-- Loading text for screen readers only -->
+              <span class="sr-only" ng-show="disable"></span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>

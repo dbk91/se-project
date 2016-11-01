@@ -18,9 +18,18 @@
   },
   "homepage": "https://github.com/dakell2/se-project#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "connect-mongo": "^1.3.2",
     "ejs": "^2.5.2",
     "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "method-override": "^2.3.6",
+    "mongoose": "^4.6.5",
     "passport": "^0.3.2",
     "stripe": "^4.10.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0"
   }
 }
