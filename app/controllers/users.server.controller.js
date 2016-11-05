@@ -1,3 +1,13 @@
+/*
+ * users.server.controller.js
+ * --------------------------
+ *
+ * This file contains the methods for the user
+ * controller. Each method maps to a URL and
+ * describes how each response should be handled.
+ *
+ */
+
 // Invoke 'strict' JavaScript mode
 'use strict';
 
@@ -5,7 +15,7 @@ const User     = require('mongoose').model('User'),
       passport = require('passport');
 
 // Create a method for registration for the User Controller
-exports.register = function(req, res, next) {
+exports.register = function(req, res) {
     // If the user is not connected, create the user
     if (!req.user) {
         // Create an instance of the User Model
@@ -40,4 +50,55 @@ exports.register = function(req, res, next) {
             message: 'You cannot register an account while logged in.'
         });
     }
+};
+
+exports.list = function(req, res, next) {
+    return res.status(200).send({
+        message: 'list users here'
+    });
 }
+
+exports.login = function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            res.status(500).send(info);
+        } else if (!user) {
+            res.status(401).send({
+                message: info.message
+            })
+        } else {
+            // Remove sensitive data from user object
+            user.password = undefined;
+            user.salt     = undefined;
+
+            req.login(user, function(err) {
+                if (err) {
+                    res.status(400).send(err);
+                } else {
+                    // Set the JSON user object and success message
+                    res.json({
+                        user: user,
+                        message: info.message
+                    });
+                }
+            });
+        }
+    })(req, res, next);
+}
+
+exports.logout = function(req, res) {
+    req.logout();
+    res.redirect('/');
+}
+
+exports.auth = function(req, res, next) {
+    // Validate the user is logged in
+    if (!req.isAuthenticated()) {
+        return res.status(401).send({
+            message: 'You must log in to access this feature'
+        });
+    } else {
+        // Call the next middleware
+        next();
+    }
+};

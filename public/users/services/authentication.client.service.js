@@ -2,14 +2,15 @@
 'use strict';
 
 // Create the 'Authentication' service
-angular.module('users').factory('Authentication', [
-    function() {
-        // Use the rendered user object
-        this.user = window.user;
+angular.module('users')
+       .factory('Authentication', Authentication);
 
-        // Return the authenticated user data
-        return {
-            user: this.user
-        };
-    }
-]);
+Authentication.$inject = ['$window'];
+
+function Authentication($window) {
+    let auth = {
+        user: $window.user
+    };
+
+    return auth;
+}

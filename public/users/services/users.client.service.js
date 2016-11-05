@@ -1,8 +1,35 @@
+/*
+ * users.client.service.js
+ * -----------------------
+ *
+ * This file contains the methods for the User Service.
+ * The main function returns a singleton to be used for
+ * making calls to the server's API.
+ *
+ */
+
 // Invoke 'strict' JavaScript mode
 'use strict';
 
 // Create the user service
-angular.module('users').factory('Users', ['$resource', function($resource) {
-    // Return the $resource object as a User object
-    return $resource('/users/register');
-}]);
+angular.module('users')
+       .factory('UserService', UserService);
+
+UserService.$inject = ['$resource'];
+
+function UserService($resource) {
+    // Describe the user service as a $resource object
+    let Users = $resource('/users', {}, {
+                    register: {
+                        method: 'POST',
+                        url: '/users'
+                    },
+                    login: {
+                        method: 'POST',
+                        url: '/users/login'
+                    }
+                });
+
+    // Return the Users service as a $resource object
+    return Users;
+}

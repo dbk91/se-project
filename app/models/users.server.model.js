@@ -36,7 +36,7 @@ const UserSchema = new Schema({
         type: String,
         // Match the UMBC E-mail with regular expression
         match: [
-            /.+\@umbc+\..+/,
+            /.+\@umbc+\.edu/,
             'You must register with a valid UMBC e-mail address'
         ],
         trim: true,
@@ -79,24 +79,32 @@ UserSchema.methods.hashPassword = function(password) {
 };
 
 // Use a pre-save middleware to hash the password
-// Capitalize first and last name if they were not
+// Capitalize first and last name if they were not entered as such
 UserSchema.pre('save', function(next) {
     if (this.password) {
         this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
         this.password = this.hashPassword(this.password);
     }
 
+    // Force lower-case on e-mail field
+    if (this.email)
+        this.email = this.email.toLowerCase();
+
     // Force capitalize the first and last name
-    if (this.name.first) {
+    if (this.name.first)
         this.name.first = `${this.name.first.charAt(0).toUpperCase()}${this.name.first.slice(1).toLowerCase()}`;
-    }
 
-    if (this.name.last) {
+    if (this.name.last)
         this.name.last = `${this.name.last.charAt(0).toUpperCase()}${this.name.last.slice(1).toLowerCase()}`;
-    }
 
+    // Continue to the next middleware
     next();
 });
+
+// Hash the input password and authenticate by comparing to the stored hash
+UserSchema.methods.authenticate = function(password) {
+    return this.password === this.hashPassword(password);
+};
 
 // Configure the 'UserSchema' to use getters and virtuals when transforming to JSON
 UserSchema.set('toJSON', {

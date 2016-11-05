@@ -1,3 +1,13 @@
+/* 
+ * index.js
+ * --------
+ * This is the main server file of the TextForSale application.
+ * The package.json file targets this file with the command "npm start"
+ * to bootstrap the application. It loads the application's dependencies
+ * and listens locally on port 31337.
+ *
+ */
+
 // Invoke 'strict' Javascript mode
 'use strict';
 
@@ -13,6 +23,9 @@ const db = mongoose();
 
 // Instantiate the application
 const app = express(db);
+
+// Instantiate "passport" middleware
+const passport = require('./config/passport')();
 
 // Listen on specified port
 app.listen(31337);
