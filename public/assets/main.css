@@ -1,4 +1,114 @@
 body {
     /* Accomodate the fixed navigation bar */
     padding-top: 51px;
+    background-color: #333;
+    color: #FFF;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+    font-family: 'Raleway';
+}
+
+label {
+    font-weight: normal;
+    font-size: 1.1em;
+}
+
+p,
+input {
+    font-family: 'Source Sans Pro';
+}
+
+hr {
+    border-color: #555;
+}
+
+/* Bootstrap Override */
+.text-danger {
+    color: #D25F5D;
+}
+
+.text-success {
+    color: #7AD27C;
+}
+
+.modal-content {
+    background-color: #333;
+    border: 2px solid #555;
+}
+
+.modal-header {
+    border-bottom: 1px solid #555;
+}
+
+.modal-footer {
+    border-top: 1px solid #555;
+}
+
+.navbar li {
+    font-family: 'Source Sans Pro';
+}
+
+.navbar-inverse .navbar-brand {
+    font-family: 'Raleway';
+    color: #F5CA5C;
+}
+
+.navbar-text {
+    padding-left: 15px;
+}
+
+.jumbotron h1,
+.jumbotron h2,
+.jumbotron h3,
+.jumbotron h4,
+.jumbotron h5,
+.jumbotron h6,
+.jumbotron p {
+    color: #333;
+}
+
+.btn.btn-primary,
+.btn.btn-primary:disabled {
+    background-color: #F5CA5C;
+    border-color: #F5CA5C;
+    color: #333;
+}
+
+.navbar-inverse .navbar-nav > .active > a {
+    color: #F5CA5C;
+}
+
+.form-control {
+    border: 2px solid #555;
+    min-height: 40px;
+    background-color: #444;
+    color: #FFF;
+}
+
+.form-control:disabled {
+    border: 2px solid #555;
+    min-height: 40px;
+    background-color: #333;
+    color: #555;
+}
+
+.form-control:focus {
+    border-color: #F5CA5C;
+    box-shadow: none;
+}
+
+button.close,
+button.close:hover {
+    color: #FFF;
+}
+
+.dark {
+    color: #F5CA5C;
 }

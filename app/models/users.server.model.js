@@ -1,3 +1,14 @@
+/*
+ * users.server.model.js
+ * ---------------------
+ *
+ * This file contains the methods and schema
+ * for the user model. Mongoose defines the Schema
+ * and implements methods before storing the
+ * data in the database.
+ *
+ */
+
 // Invoke 'strict' JavaScript mode
 'use strict';
 
@@ -39,8 +50,9 @@ const UserSchema = new Schema({
             /.+\@umbc+\.edu/,
             'You must register with a valid UMBC e-mail address'
         ],
+        unique: 'An account is already registered with this e-mail',
+        lowercase: true,
         trim: true,
-        unique: true,
         required: 'You must provide a UMBC e-mail address'
     },
     password: {
@@ -62,9 +74,7 @@ const UserSchema = new Schema({
         default: Date.now
     },
     last_updated: {
-        type: Date,
-        // Default to the current time on creation
-        default: Date.now
+        type: Date
     }
 });
 
@@ -80,15 +90,11 @@ UserSchema.methods.hashPassword = function(password) {
 
 // Use a pre-save middleware to hash the password
 // Capitalize first and last name if they were not entered as such
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function(next, done) {
     if (this.password) {
         this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
         this.password = this.hashPassword(this.password);
     }
-
-    // Force lower-case on e-mail field
-    if (this.email)
-        this.email = this.email.toLowerCase();
 
     // Force capitalize the first and last name
     if (this.name.first)

@@ -15,7 +15,7 @@ const User     = require('mongoose').model('User'),
       passport = require('passport');
 
 // Create a method for registration for the User Controller
-exports.register = function(req, res) {
+exports.register = function(req, res, info) {
     // If the user is not connected, create the user
     if (!req.user) {
         // Create an instance of the User Model
@@ -65,7 +65,7 @@ exports.login = function(req, res, next) {
         } else if (!user) {
             res.status(401).send({
                 message: info.message
-            })
+            });
         } else {
             // Remove sensitive data from user object
             user.password = undefined;
