@@ -1,6 +1,6 @@
 # OS
 # ==
-.DS_STORE
+*/*.DS_STORE
 
 # Node and related ecosystem
 # ==========================
