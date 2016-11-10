@@ -112,3 +112,11 @@ button.close:hover {
 .dark {
     color: #F5CA5C;
 }
+
+.valid-input.form-control:focus {
+    border-color: #7AD27C;
+}
+
+.invalid-input.form-control {
+    border-color: #D25F5D;
+}

@@ -29,4 +29,7 @@ module.exports = function(app) {
     app.route('/users/logout')
        .get(users.logout)
        .post(users.logout);
+
+    app.route('/users/validate_email')
+       .post(users.validateEmail);
 };

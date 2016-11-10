@@ -14,9 +14,9 @@
 angular.module('users')
        .controller('UsersController', UsersController);
 
-UsersController.$inject = ['$scope', '$location', 'Authentication', 'UserService'];
+UsersController.$inject = ['$scope', '$location', '$http', 'Authentication', 'UserService'];
 
-function UsersController($scope, $location, Authentication, UserService) {
+function UsersController($scope, $location, $http, Authentication, UserService) {
     // Bind the controller to a variable
     let vm = this;
 
@@ -98,6 +98,14 @@ function UsersController($scope, $location, Authentication, UserService) {
             $scope.message = errorResponse.data.message;
             // Re-enable the form
             $scope.disable = false;
+        });
+    };
+
+    $scope.validateEmail = function(email) {
+        return $http({
+            url: '/users/validate_email',
+            method: 'POST',
+            data: { email: email }
         });
     };
 }

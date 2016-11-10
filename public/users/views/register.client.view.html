@@ -37,7 +37,7 @@
         <div class="col-md-4 col-md-offset-4">
           <div class="form-group">
             <label>E-mail Address</label>
-            <input class="form-control" type="email" data-ng-model="email" data-ng-disabled="disable" placeholder="Register With Your UMBC E-mail">
+            <input class="form-control" type="email" data-ng-model="email" data-ng-disabled="disable" placeholder="Register With Your UMBC E-mail" email-validator>
           </div>
           <p class="text-danger" data-ng-bind="errors.email.message"></p>
           <div class="form-group">
