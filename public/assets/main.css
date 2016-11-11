@@ -21,8 +21,17 @@ label {
 }
 
 p,
+a,
 input {
     font-family: 'Source Sans Pro';
+}
+
+a {
+    color: #F5CA5C;
+}
+
+a:hover {
+    color: #333;
 }
 
 hr {
@@ -64,6 +73,10 @@ hr {
     padding-left: 15px;
 }
 
+.sidebar {
+    padding: 0px;
+}
+
 .jumbotron h1,
 .jumbotron h2,
 .jumbotron h3,
@@ -85,6 +98,15 @@ hr {
     color: #F5CA5C;
 }
 
+.nav > li > a:hover {
+    background-color: #222;
+    color: #FFF;
+}
+
+.nav.nav-sidebar {
+    background-color: #777;
+}
+
 .form-control {
     border: 2px solid #555;
     min-height: 40px;
@@ -102,6 +124,11 @@ hr {
 .form-control:focus {
     border-color: #F5CA5C;
     box-shadow: none;
+}
+
+.thumbnail {
+    background-color: #999;
+    border-color: #555;
 }
 
 button.close,

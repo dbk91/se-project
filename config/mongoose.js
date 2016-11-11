@@ -25,6 +25,7 @@ module.exports = function() {
 
     // Load the application models
     require('../app/models/users.server.model');
+    require('../app/models/books.server.model');
 
     return db;
 }
