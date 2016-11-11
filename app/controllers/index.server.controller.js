@@ -4,6 +4,7 @@
 // Create the render controller method
 exports.render = function(req, res) {
     res.render('index', {
-        title: 'Software Engineering - CMSC 447'
+        title: 'Software Engineering - CMSC 447',
+        user: JSON.stringify(req.user)
     });
 };

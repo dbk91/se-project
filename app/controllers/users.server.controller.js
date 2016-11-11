@@ -12,7 +12,9 @@
 'use strict';
 
 const User     = require('mongoose').model('User'),
-      passport = require('passport');
+      passport = require('passport'),
+      http     = require('http'),
+      parse5   = require('parse5');
 
 // Create a method for registration for the User Controller
 exports.register = function(req, res, info) {
@@ -56,7 +58,7 @@ exports.list = function(req, res, next) {
     return res.status(200).send({
         message: 'list users here'
     });
-}
+};
 
 exports.login = function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
@@ -84,12 +86,12 @@ exports.login = function(req, res, next) {
             });
         }
     })(req, res, next);
-}
+};
 
 exports.logout = function(req, res) {
     req.logout();
     res.redirect('/');
-}
+};
 
 exports.auth = function(req, res, next) {
     // Validate the user is logged in
@@ -101,4 +103,29 @@ exports.auth = function(req, res, next) {
         // Call the next middleware
         next();
     }
+};
+
+exports.validateEmail = function(req, res) {
+    // Success of the request
+    let success = false;
+
+    let email = req.body.email;
+
+    // Construct the post options
+    let options = {
+        host: 'www.umbc.edu',
+        port: 80,
+        path: `/search/directory/?search=${encodeURIComponent(email.toLowerCase())}`,
+        method: 'POST'
+    };
+
+    let request = http.request(options);
+
+    request.on('response', function(response) {
+        response.on('data', function(chunk) {
+            
+        });
+    });
+
+    request.end();
 };

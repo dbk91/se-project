@@ -1,3 +1,12 @@
+/**
+ * users.client.routes.js
+ * ----------------------
+ *
+ * This file contains the route provider definitions for
+ * the 'users' portion of the client-side Angular application.
+ *
+ */
+
 // Invoke 'strict' JavaScript mode
 'use strict';
 
