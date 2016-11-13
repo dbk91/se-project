@@ -16,6 +16,10 @@ const books    = require('../../app/controllers/books.server.controller'),
       passport = require('passport');
 
 module.exports = function(app) {
-    app.route('/books')
+    app.route('/api/books')
        .get(books.list);
+
+    app.get('/api/books/:bookId', books.read);
+
+    app.param('bookId', books.bookById);
 }

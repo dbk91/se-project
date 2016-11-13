@@ -14,12 +14,17 @@
 angular.module('books')
        .controller('BooksController', BooksController);
 
-BooksController.$inject = ['$scope', 'BooksService'];
+BooksController.$inject = ['$scope', '$routeParams', 'BooksService'];
 
-function BooksController($scope, BooksService) {
-    $scope.letterLimit = 100;
-
+function BooksController($scope, $routeParams, BooksService) {
+    
     $scope.find = function() {
         $scope.books = BooksService.query();
+    };
+
+    $scope.findOne = function() {
+        $scope.book = BooksService.get({
+            bookId: $routeParams.bookId
+        });
     };
 }

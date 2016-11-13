@@ -21,7 +21,7 @@ function emailValidator() {
             if (EMAIL_REGEX.test(value)) {
                 element.removeClass('invalid-input');
                 element.addClass('valid-input');
-
+                return true;
                 /*  ** TODO: Implement UMBC directory request to validate e-mail
                 scope.validateEmail(value)
                      .success(function(data, status, headers, config) {
@@ -40,6 +40,8 @@ function emailValidator() {
                 element.removeClass('valid-input');
                 element.addClass('invalid-input');
             }
+            
+            return false;
         }
     }
 }

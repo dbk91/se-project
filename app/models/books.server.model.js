@@ -23,16 +23,7 @@ const BookSchema = new Schema({
     price: {
         type: Number
     },
-    ISBN10: {
-        type: String
-    },
-    ISBN13: {
-        type: String
-    },
-    img: {
-        type: String
-    },
-    subject: {
+    description: {
         type: String
     }
 });

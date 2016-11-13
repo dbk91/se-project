@@ -17,7 +17,13 @@ angular.module('books')
 BooksService.$inject = ['$resource'];
 
 function BooksService($resource) {
-    let Books = $resource('/books');
+    let Books = $resource('/api/books/:bookId', {
+        bookId: '@_id'
+    }, {
+        update: {
+            method: 'PUT'
+        }
+    });
 
     return Books;
 }
