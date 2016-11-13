@@ -11,7 +11,8 @@
 // Invoke 'strict' JavaScript mode
 'use strict';
 
-const Book = require('mongoose').model('Book');
+const mongoose = require('mongoose'),
+      Book     = mongoose.model('Book');
 
 exports.list = function(req, res) {
     Book.find()
@@ -24,5 +25,33 @@ exports.list = function(req, res) {
             } else {
                 res.json(books);
             }
+        });
+};
+
+exports.read = function(req, res, next) {
+    let book = req.book ? req.book.toJSON() : {};
+
+    return res.json(book);
+};
+
+exports.bookById = function(req, res, next, id) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({
+          message: 'Article is invalid'
+        });
+    }
+
+    Book.findById(id)
+        .exec(function(err, book) {
+            if (err)
+                return next(err);
+            else if (!book) {
+                return res.status(400).send({
+                    message: 'No book has be found with that identifier.'
+                });
+            }
+
+            req.book = book;
+            next();
         });
 };

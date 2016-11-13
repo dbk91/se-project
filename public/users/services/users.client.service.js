@@ -19,14 +19,14 @@ UserService.$inject = ['$resource'];
 
 function UserService($resource) {
     // Describe the user service as a $resource object
-    let Users = $resource('/users', {}, {
+    let Users = $resource('/api/users', {}, {
                     register: {
                         method: 'POST',
-                        url: '/users'
+                        url: '/api/users'
                     },
                     login: {
                         method: 'POST',
-                        url: '/users/login'
+                        url: '/api/users/login'
                     }
                 });
 

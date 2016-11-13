@@ -18,18 +18,18 @@ const users    = require('../../app/controllers/users.server.controller'),
 // Define the routes' module method
 module.exports = function(app) {
     // Define the '/users' route
-    app.route('/users')
+    app.route('/api/users')
        .get(users.auth, users.list)
        .post(users.register);
 
     // Define the '/users/login' route
-    app.route('/users/login')
+    app.route('/api/users/login')
        .post(users.login);
 
-    app.route('/users/logout')
+    app.route('/api/users/logout')
        .get(users.logout)
        .post(users.logout);
 
-    app.route('/users/validate_email')
+    app.route('/api/users/validate_email')
        .post(users.validateEmail);
 };

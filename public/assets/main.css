@@ -39,6 +39,14 @@ hr {
 }
 
 /* Bootstrap Override */
+.thumbnail {
+    height: 235px;
+}
+
+.thumbnail p.lead {
+    height: 75px;
+}
+
 .text-danger {
     color: #D25F5D;
 }
