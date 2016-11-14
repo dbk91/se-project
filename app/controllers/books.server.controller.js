@@ -17,14 +17,13 @@ const mongoose = require('mongoose'),
 exports.list = function(req, res) {
     Book.find()
         .sort('-price')
-        .exec(function(err, books) {
-            if (err) {
-                return res.status(500).send({
-                    message: 'Server Error'
-                });
-            } else {
-                res.json(books);
-            }
+        .exec()
+        .then(function(books) {
+            return res.json(books);
+        }, function(err) {
+            return res.status(500).send({
+                message: 'Server Error'
+            });
         });
 };
 
@@ -37,21 +36,22 @@ exports.read = function(req, res, next) {
 exports.bookById = function(req, res, next, id) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({
-          message: 'Article is invalid'
+          message: 'Book is invalid'
         });
     }
 
     Book.findById(id)
-        .exec(function(err, book) {
-            if (err)
-                return next(err);
-            else if (!book) {
+        .exec()
+        .then(function(book) {
+            if (!book) {
                 return res.status(400).send({
-                    message: 'No book has be found with that identifier.'
+                    message: 'No book was found with the provided identifier.'
                 });
             }
 
             req.book = book;
             next();
+        }, function(err) {
+            return next(err);
         });
 };
