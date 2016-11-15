@@ -32,7 +32,7 @@ exports.create = function(req, res) {
     let book = new Book(req.body);
 
     // Set the seller of the book
-    req.seller = req.user;
+    book.seller = req.user;
 
     // Save the book to the database
     book.save(function(err) {
