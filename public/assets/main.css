@@ -22,7 +22,8 @@ label {
 
 p,
 a,
-input {
+input,
+textarea {
     font-family: 'Source Sans Pro';
 }
 
@@ -38,7 +39,15 @@ hr {
     border-color: #555;
 }
 
+textarea { 
+    resize: none;
+}
+
 /* Bootstrap Override */
+textarea.form-control {
+    height: 200px;
+}
+
 .thumbnail {
     height: 235px;
 }

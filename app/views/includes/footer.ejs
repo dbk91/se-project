@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- User Object -->
+<script type="text/javascript">window.user = <%- user || 'null' %></script>
+
+<!-- Angular -->
+<script type="text/javascript" src="/lib/angular/angular.js"></script>
+<script type="text/javascript" src="/lib/angular-route/angular-route.js"></script>
+<script type="text/javascript" src="/lib/angular-resource/angular-resource.js"></script>
+<script type="text/javascript" src="/lib/angular-input-masks/angular-input-masks-standalone.min.js"></script>
+
+<!-- Boostrap -->
+<script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Load the home module -->
+<script type="text/javascript" src="/home/home.client.module.js"></script>
+<script type="text/javascript" src="/home/config/home.client.routes.js"></script>
+<script type="text/javascript" src="/home/controllers/home.client.controller.js"></script>
+
+<!-- Load the user module -->
+<script type="text/javascript" src="/users/users.client.module.js"></script>
+<script type="text/javascript" src="/users/config/users.client.routes.js"></script>
+<script type="text/javascript" src="/users/controllers/users.client.controller.js"></script>
+<script type="text/javascript" src="/users/services/authentication.client.service.js"></script>
+<script type="text/javascript" src="/users/services/users.client.service.js"></script>
+<script type="text/javascript" src="/users/directives/email-validator.client.directive.js"></script>
+
+<!-- Books module -->
+<script type="text/javascript" src="/books/books.client.module.js"></script>
+<script type="text/javascript" src="/books/config/books.client.routes.js"></script>
+<script type="text/javascript" src="/books/controllers/books.client.controller.js"></script>
+<script type="text/javascript" src="/books/services/books.client.service.js"></script>
+<!-- Load the main application -->
+<script type="text/javascript" src="/application.js"></script>

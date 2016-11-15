@@ -1,51 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="se-project">
   <head>
-    <title>
-      <%= title %>
-    </title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- For mobile device view -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="/lib/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/lib/font-awesome/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Raleway|Source+Sans+Pro" rel="stylesheet"> 
-    <link rel="stylesheet" type="text/css" href="/assets/main.css">
+    <% include includes/header.ejs %>
   </head>
   <body>
+    <% include includes/navbar.html %>
     <div ng-view></div>
   </body>
   <footer>
-    <!-- User Object -->
-    <script type="text/javascript">window.user = <%- user || 'null' %></script>
-    <script type="text/javascript" src="/lib/angular/angular.js"></script>
-    <script type="text/javascript" src="/lib/angular-route/angular-route.js"></script>
-    <script type="text/javascript" src="/lib/angular-resource/angular-resource.js"></script>
-    <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-
-    <!-- Load the home module -->
-    <script type="text/javascript" src="/home/home.client.module.js"></script>
-    <script type="text/javascript" src="/home/config/home.client.routes.js"></script>
-    <script type="text/javascript" src="/home/controllers/home.client.controller.js"></script>
-
-    <!-- Load the user module -->
-    <script type="text/javascript" src="/users/users.client.module.js"></script>
-    <script type="text/javascript" src="/users/config/users.client.routes.js"></script>
-    <script type="text/javascript" src="/users/controllers/users.client.controller.js"></script>
-    <script type="text/javascript" src="/users/services/authentication.client.service.js"></script>
-    <script type="text/javascript" src="/users/services/users.client.service.js"></script>
-    <script type="text/javascript" src="/users/directives/email-validator.client.directive.js"></script>
-
-    <!-- Books module -->
-    <script type="text/javascript" src="/books/books.client.module.js"></script>
-    <script type="text/javascript" src="/books/config/books.client.routes.js"></script>
-    <script type="text/javascript" src="/books/controllers/books.client.controller.js"></script>
-    <script type="text/javascript" src="/books/services/books.client.service.js"></script>
-
-    <!-- Load the main application -->
-    <script type="text/javascript" src="/application.js"></script>
-
+    <% include includes/footer.ejs %>
   </footer>
 </html>

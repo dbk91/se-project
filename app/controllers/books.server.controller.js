@@ -17,15 +17,43 @@ const mongoose = require('mongoose'),
 exports.list = function(req, res) {
     Book.find()
         .sort('-price')
-        .exec(function(err, books) {
-            if (err) {
-                return res.status(500).send({
-                    message: 'Server Error'
-                });
-            } else {
-                res.json(books);
-            }
+        .exec()
+        .then(function(books) {
+            return res.json(books);
+        }, function(err) {
+            return res.status(500).send({
+                message: 'Server Error'
+            });
         });
+};
+
+exports.create = function(req, res) {
+    // Create a new book
+    let book = new Book(req.body);
+
+    // Set the seller of the book
+    req.seller = req.user;
+
+    // Save the book to the database
+    book.save(function(err) {
+        // Check the error
+        if (err && err.errors) {
+            // Return the 400 'bad request' code and failure messages
+            return res.status(400).send({
+                errors: err.errors
+            });
+        } else if (err) {
+            // Return the 400 'bad request' code and failure message
+            return res.status(400).send({
+                message: 'An error occurred.'
+            });
+        } else {
+            // Return the 200 'okay' status code and success message
+            return res.status(200).send({
+                message: 'You have posted your book!'
+            });
+        }
+    });
 };
 
 exports.read = function(req, res, next) {
@@ -37,21 +65,22 @@ exports.read = function(req, res, next) {
 exports.bookById = function(req, res, next, id) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({
-          message: 'Article is invalid'
+          message: 'Book is invalid'
         });
     }
 
     Book.findById(id)
-        .exec(function(err, book) {
-            if (err)
-                return next(err);
-            else if (!book) {
+        .exec()
+        .then(function(book) {
+            if (!book) {
                 return res.status(400).send({
-                    message: 'No book has be found with that identifier.'
+                    message: 'No book was found with the provided identifier.'
                 });
             }
 
             req.book = book;
             next();
+        }, function(err) {
+            return next(err);
         });
 };

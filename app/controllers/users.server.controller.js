@@ -93,7 +93,7 @@ exports.logout = function(req, res) {
     res.redirect('/');
 };
 
-exports.auth = function(req, res, next) {
+exports.requiresLogin = function(req, res, next) {
     // Validate the user is logged in
     if (!req.isAuthenticated()) {
         return res.status(401).send({
