@@ -13,11 +13,13 @@
 'use strict';
 
 const books    = require('../../app/controllers/books.server.controller'),
+      users    = require('../../app/controllers/users.server.controller'),
       passport = require('passport');
 
 module.exports = function(app) {
     app.route('/api/books')
-       .get(books.list);
+       .get(books.list)
+       .post(users.requiresLogin, books.create);
 
     app.get('/api/books/:bookId', books.read);
 

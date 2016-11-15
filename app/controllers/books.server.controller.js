@@ -27,6 +27,35 @@ exports.list = function(req, res) {
         });
 };
 
+exports.create = function(req, res) {
+    // Create a new book
+    let book = new Book(req.body);
+
+    // Set the seller of the book
+    req.seller = req.user;
+
+    // Save the book to the database
+    book.save(function(err) {
+        // Check the error
+        if (err && err.errors) {
+            // Return the 400 'bad request' code and failure messages
+            return res.status(400).send({
+                errors: err.errors
+            });
+        } else if (err) {
+            // Return the 400 'bad request' code and failure message
+            return res.status(400).send({
+                message: 'An error occurred.'
+            });
+        } else {
+            // Return the 200 'okay' status code and success message
+            return res.status(200).send({
+                message: 'You have posted your book!'
+            });
+        }
+    });
+};
+
 exports.read = function(req, res, next) {
     let book = req.book ? req.book.toJSON() : {};
 

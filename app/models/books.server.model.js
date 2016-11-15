@@ -18,13 +18,40 @@ const mongoose = require('mongoose'),
 
 const BookSchema = new Schema({
     title: {
-        type: String
+        type: String,
+        required: 'You must provide the title of the book',
+        validate: [
+            function(title) {
+                return title.length < 64;
+            }, 'The title cannot exceed 64 characters'
+        ]
     },
     price: {
-        type: Number
+        type: Number,
+        required: 'You must provide a price',
+        validate: [
+            function(price) {
+                return price > 0;
+            }, 'The price must be greater than zero'
+        ]
     },
     description: {
-        type: String
+        type: String,
+        description: '',
+        trim: true,
+        validate: [
+            function(description) {
+                return description.length < 1024;
+            }, 'The description length exceeded the maximum number of characters'
+        ]
+    },
+    posted: {
+        type: Date,
+        default: Date.now
+    },
+    seller: {
+        type: Schema.ObjectId,
+        ref: 'User'
     }
 });
 

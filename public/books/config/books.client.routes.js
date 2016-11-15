@@ -20,6 +20,9 @@ function config($routeProvider) {
         .when('/books', {
             templateUrl: 'books/views/books.list.client.view.html'
         })
+        .when('/books/create', {
+            templateUrl: 'books/views/books.create.client.view.html'
+        })
         .when('/books/:bookId', {
             templateUrl: 'books/views/books.read.client.view.html'
         });
