@@ -20,7 +20,11 @@ module.exports = function(app) {
        .get(books.list)
        .post(users.requiresLogin, books.create);
 
-    app.get('/api/books/:bookId', books.read);
+    app.route('/api/books/:bookId')
+       .get(books.read);
+
+    app.route('/api/books/search')
+       .post(books.titleSearch);
 
     app.param('bookId', books.bookById);
 };

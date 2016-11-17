@@ -84,3 +84,15 @@ exports.bookById = function(req, res, next, id) {
             return next(err);
         });
 };
+
+exports.titleSearch = function(req, res) {
+    Book.find({ $text: { $search: req.body.title } })
+    .then(function(data) {
+        let books = { books: data };
+        return res.json(books);
+    }, function(err) {
+        return res.status(500).send({
+            message: 'An error occurred.'
+        });
+    });
+};

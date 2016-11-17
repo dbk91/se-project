@@ -65,4 +65,18 @@ function BooksController($scope, $routeParams, Authentication, BooksService) {
                 $scope.disable = false;
             });
     };
+
+    $scope.searchTitle = function() {
+        let booksService = new BooksService({
+            title: this.title
+        });
+
+        booksService.$searchTitle()
+            .then(function(response) {
+                $scope.books = response.books;
+                console.log($scope.books);
+            }, function(errorResponse) {
+                console.log(errorResponse);
+            });
+    };
 }

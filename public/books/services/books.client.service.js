@@ -22,6 +22,10 @@ function BooksService($resource) {
     }, {
         update: {
             method: 'PUT'
+        },
+        searchTitle: {
+            url: '/api/books/search',
+            method: 'POST'
         }
     });
 
