@@ -13,8 +13,7 @@
 'use strict';
 
 const books    = require('../../app/controllers/books.server.controller'),
-      users    = require('../../app/controllers/users.server.controller'),
-      passport = require('passport');
+      users    = require('../../app/controllers/users.server.controller');
 
 module.exports = function(app) {
     app.route('/api/books')
@@ -24,4 +23,4 @@ module.exports = function(app) {
     app.get('/api/books/:bookId', books.read);
 
     app.param('bookId', books.bookById);
-}
+};
