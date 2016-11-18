@@ -5,7 +5,7 @@ angular.module('users')
        .directive('emailValidator', emailValidator);
 
 function emailValidator() {
-    const EMAIL_REGEX = /.+\@umbc+\.edu/;
+    const EMAIL_REGEX = /^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@(umbc)\.(edu)$/;
 
     let directive = {
         require: 'ngModel',

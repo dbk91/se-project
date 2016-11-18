@@ -15,11 +15,42 @@ const mongoose = require('mongoose'),
       Book     = mongoose.model('Book');
 
 exports.list = function(req, res) {
-    Book.find()
-        .sort('-price')
+    // Set the criteria
+    let criteria = req.body.title
+                   ? { $text: { $search: req.body.title } }
+                   : {};
+
+    Book.find(criteria)
+        .count()
         .exec()
-        .then(function(books) {
-            return res.json(books);
+        .then(function(count) {
+            // Set the request limit on searches
+            const pageLimit = 8;
+            // Set the current page
+            let currentPage = req.body.page ? req.body.page : 0;
+            // Find the number of pages
+            let pages = Math.floor(count / pageLimit) + 1;
+            // Calculate the page offset
+            let offset = pageLimit * currentPage;
+
+            Book.find(criteria)
+                .sort('-price')
+                .limit(pageLimit)
+                .skip(offset)
+                .exec()
+                .then(function(data) {
+                    let books = { 
+                        books: data,
+                        pages: pages,
+                        totalBooks: count,
+                        currentPage: currentPage
+                    };
+                    return res.json(books);
+                }, function(err) {
+                    return res.status(500).send({
+                        message: 'Server Error'
+                    });
+                });
         }, function(err) {
             return res.status(500).send({
                 message: 'Server Error'
@@ -32,7 +63,7 @@ exports.create = function(req, res) {
     let book = new Book(req.body);
 
     // Set the seller of the book
-    req.seller = req.user;
+    book.seller = req.user;
 
     // Save the book to the database
     book.save(function(err) {
@@ -84,3 +115,15 @@ exports.bookById = function(req, res, next, id) {
             return next(err);
         });
 };
+/*
+exports.titleSearch = function(req, res) {
+    Book.find({ $text: { $search: req.body.title } })
+    .then(function(data) {
+        let books = { books: data };
+        return res.json(books);
+    }, function(err) {
+        return res.status(500).send({
+            message: 'An error occurred.'
+        });
+    });
+};*/

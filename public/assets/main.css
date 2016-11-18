@@ -44,6 +44,25 @@ textarea {
 }
 
 /* Bootstrap Override */
+.pagination > li > a {
+    background-color: #444;
+    border-color: #777;
+    color: #F5CA5C;
+}
+
+.pagination > li > a:hover {
+    background-color: #F5CA5C;
+    color: #222;
+    border-color: #F5CA5C;
+}
+
+.pagination > li.active > a,
+.pagination > li.active > a:hover {
+    background-color: #F5CA5C;
+    color: #222;
+    border-color: #F5CA5C;
+}
+
 textarea.form-control {
     height: 200px;
 }

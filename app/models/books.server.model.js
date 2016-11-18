@@ -55,4 +55,7 @@ const BookSchema = new Schema({
     }
 });
 
+// Add the index to title
+BookSchema.index({ title: 'text' });
+
 mongoose.model('Book', BookSchema);
