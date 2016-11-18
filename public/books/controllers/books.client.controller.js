@@ -21,8 +21,21 @@ function BooksController($scope, $routeParams, Authentication, BooksService) {
 
     vm.authentication = Authentication;
 
-    $scope.find = function() {
-        $scope.books = BooksService.query();
+    $scope.find = function(page) {
+        let booksService = new BooksService({
+            title: this.title,
+            page: page
+        });
+
+        booksService.$list()
+            .then(function(response) {
+                $scope.books = response.books;
+                $scope.pages = new Array(response.pages);
+                $scope.total = response.totalBooks;
+                $scope.currentPage = response.currentPage;
+            }, function(errorResponse) {
+                console.log(errorResponse);
+            });
     };
 
     $scope.findOne = function() {
@@ -65,7 +78,7 @@ function BooksController($scope, $routeParams, Authentication, BooksService) {
                 $scope.disable = false;
             });
     };
-
+    /*
     $scope.searchTitle = function() {
         let booksService = new BooksService({
             title: this.title
@@ -78,5 +91,5 @@ function BooksController($scope, $routeParams, Authentication, BooksService) {
             }, function(errorResponse) {
                 console.log(errorResponse);
             });
-    };
+    };*/
 }

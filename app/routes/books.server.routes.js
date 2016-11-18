@@ -17,14 +17,13 @@ const books    = require('../../app/controllers/books.server.controller'),
 
 module.exports = function(app) {
     app.route('/api/books')
-       .get(books.list)
        .post(users.requiresLogin, books.create);
+
+    app.route('/api/books/search')
+       .post(books.list);
 
     app.route('/api/books/:bookId')
        .get(books.read);
-
-    app.route('/api/books/search')
-       .post(books.titleSearch);
 
     app.param('bookId', books.bookById);
 };
