@@ -116,9 +116,11 @@ exports.bookById = function(req, res, next, id) {
             }
 
             req.book = book;
-            next();
         })
         .catch(function(err) {
-            return next(err);
-        });
+            return res.status(500).send({
+                message: err
+            });
+        })
+        .finally(next);
 };
