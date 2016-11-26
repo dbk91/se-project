@@ -29,7 +29,7 @@ module.exports = function(app) {
     app.route('/api/users/logout')
        .get(users.logout)
        .post(users.logout);
-
+    /*
     app.route('/api/users/validate_email')
-       .post(users.validateEmail);
+       .post(users.validateEmail);*/
 };

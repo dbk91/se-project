@@ -100,12 +100,12 @@ function UsersController($scope, $location, $http, Authentication, UserService) 
             $scope.disable = false;
         });
     };
-
+    /*
     $scope.validateEmail = function(email) {
         return $http({
             url: '/users/validate_email',
             method: 'POST',
             data: { email: email }
         });
-    };
+    }; */
 }

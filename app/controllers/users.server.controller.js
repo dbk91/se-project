@@ -28,8 +28,17 @@ exports.register = function(req, res, info) {
 
         // Attempt to save the user to the DB
         user.save(function(err) {
+            // Email already exists
+            if (err.name === 'MongoError' && err.code === 11000) {
+                return res.status(409).send({
+                    success: false,
+                    message: 'An error occurred.',
+                    errors: {
+                        email: 'The provided e-mail already exists in our records'
+                    }
+                });
             // Check the error
-            if (err && err.errors) {
+            } else if (err && err.errors) {
                 // Return the 400 'bad request' code and failure messages
                 return res.status(400).send({
                     errors: err.errors
@@ -104,7 +113,7 @@ exports.requiresLogin = function(req, res, next) {
         next();
     }
 };
-
+/*
 exports.validateEmail = function(req, res) {
     // Success of the request
     let success = false;
@@ -128,4 +137,4 @@ exports.validateEmail = function(req, res) {
     });
 
     request.end();
-};
+};*/
