@@ -51,7 +51,9 @@ const UserSchema = new Schema({
             /^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@(umbc)\.(edu)$/,
             'You must register with a valid UMBC e-mail address'
         ],
-        unique: 'An account is already registered with this e-mail',
+        index: {
+            unique: 'An account is already registered with this e-mail'
+        },
         lowercase: true,
         trim: true,
         required: 'You must provide a UMBC e-mail address'

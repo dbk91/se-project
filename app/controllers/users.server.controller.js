@@ -34,7 +34,9 @@ exports.register = function(req, res, info) {
                     success: false,
                     message: 'An error occurred.',
                     errors: {
-                        email: 'The provided e-mail already exists in our records'
+                        email: {
+                            message: 'The provided e-mail already exists in our records'
+                        }
                     }
                 });
             // Check the error
