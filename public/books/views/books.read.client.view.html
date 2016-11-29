@@ -1,21 +1,30 @@
 <div class="container">
   <br>
   <section data-ng-controller="BooksController" data-ng-init="findOne()">
-    <div class="row">
-      <div class="col-md-4">
-        <div style="height: 450px; width: 100%; background-color: #555; border-radius: 10px"><p class="lead text-center" style="padding-top: 50%">Book Image</p></div>
-      </div>
-      <div class="col-md-8">
-        <h1>{{ book.title || 'No Title Found' }}</h1>
-        <h3>{{ book.subect || 'Course Subject Not Found' }}</h3>
-        <h2 class="text-right">{{ book.price || 'No Price' | currency }}</h2>
-        <p>{{ book.description || 'No description available.' }}</p>
-        <div class="inline-list">
-          <button type="button" class="btn btn-primary">Add To Cart</button>
-          <button type="button" class="btn btn-primary">Add Book & Checkout</button>
-          <button type="button" class="btn btn-primary">Trade A Book</button>
+    <form data-ng-submit="addToCart()">
+      <div class="row">
+        <div class="col-md-4">
+          <div style="height: 450px; width: 100%; background-color: #555; border-radius: 10px"><p class="lead text-center" style="padding-top: 50%">Book Image</p></div>
+        </div>
+        <div class="col-md-8">
+          <h1>{{ book.title || 'No Title Found' }}</h1>
+          <h3>{{ book.subect || 'Course Subject Not Found' }}</h3>
+          <h2 class="text-right">{{ book.price || 'No Price' | currency }}</h2>
+          <p>{{ book.description || 'No description available.' }}</p>
+          <input type="hidden" data-ng-value="{{ book._id }}" data-ng-model="bookId">
+          <br />
+          <div class="inline-list text-center">
+            <button class="btn btn-lg btn-primary" data-ng-disabled="disable">
+              <!-- Normal button text -->
+              <span ng-hide="disable">Add To Cart</span>
+              <!-- Loading spinner while form is disabled -->
+              <i class="fa fa-spinner fa-spin" ng-show="disable"></i>
+              <!-- Loading text for screen readers only -->
+              <span class="sr-only" ng-show="disable">Loading...</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   </section>
 </div>

@@ -43,7 +43,40 @@ textarea {
     resize: none;
 }
 
+ul {
+    list-style-type: none;
+    padding: none;
+}
+
+ul > li { 
+    padding: none;
+}
+
 /* Bootstrap Override */
+.table > tbody > tr > td,
+.table > tbody > tr > th {
+    border-top: none;
+}
+
+.table > thead > tr > th {
+    border-bottom: none;
+}
+
+.table.table-hover > tbody > tr:hover {
+    cursor: pointer;
+    background-color: #777;
+}
+
+.table.table-hover > tbody > th:hover {
+    cursor: default;
+    background-color: #222;
+}
+
+.table.table-hover > tbody > tr > td {
+    border-top: none;
+    border-bottom: 1px solid #555;
+}
+
 .pagination > li > a {
     background-color: #444;
     border-color: #777;
@@ -111,6 +144,11 @@ textarea.form-control {
 
 .sidebar {
     padding: 0px;
+}
+
+.raleway {
+    font-family: 'Raleway';
+    font-weight: normal;
 }
 
 .jumbotron h1,
