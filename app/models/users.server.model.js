@@ -48,31 +48,12 @@ const UserSchema = new Schema({
         type: String,
         // Match the UMBC E-mail with regular expression
         match: [
-            /.+\@umbc+\.edu/,
+            /^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@(umbc)\.(edu)$/,
             'You must register with a valid UMBC e-mail address'
         ],
-        validate: [
-            function(email) {
-                // Success of the request
-                let success = false;
-
-                // Construct the post options
-                let options = {
-                    host: 'www.umbc.edu',
-                    port: 80,
-                    path: `/search/directory/?search=${encodeURIComponent(email.toLowerCase())}`,
-                    method: 'POST'
-                };
-
-                console.log(options);
-
-                let req = http.request(options);
-                console.log(req);
-
-                return req;
-            }, 'derp'
-        ],
-        unique: 'An account is already registered with this e-mail',
+        index: {
+            unique: 'An account is already registered with this e-mail'
+        },
         lowercase: true,
         trim: true,
         required: 'You must provide a UMBC e-mail address'

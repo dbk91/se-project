@@ -15,10 +15,12 @@
         <li data-ng-show="!uc.authentication.user"><a href="/#/users/register">Register</a></li>
         <li data-ng-show="uc.authentication.user"><p class="navbar-text">Welcome, {{ uc.authentication.user.name.first }}</p></li>
         <li data-ng-show="uc.authentication.user"><a href="/api/users/logout">Logout</a><li>
-          <div class="navbar-text">
-            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-            <span class="badge">0</span>
-          </div>
+          <section>
+            <div class="navbar-text" data-ng-click="readCart()">
+              <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+              <span class="badge">{{ cc.cart.items.length }}</span>
+            </div>
+          </section>
         </li>
       </ul>
     </div>

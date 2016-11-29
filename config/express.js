@@ -58,6 +58,7 @@ module.exports = function(db) {
     require('../app/routes/index.server.routes')(app);
     require('../app/routes/users.server.routes')(app);
     require('../app/routes/books.server.routes')(app);
+    require('../app/routes/cart.server.routes')(app);
 
     // Static server files
     app.use(express.static('public'));

@@ -2,6 +2,9 @@
 <!-- User Object -->
 <script type="text/javascript">window.user = <%- user || 'null' %></script>
 
+<!-- Cart Object -->
+<script type="text/javascript">window.cart = <%- cart || { items: [], total: 0 } %></script>
+
 <!-- Angular -->
 <script type="text/javascript" src="/lib/angular/angular.js"></script>
 <script type="text/javascript" src="/lib/angular-route/angular-route.js"></script>
@@ -11,6 +14,9 @@
 <!-- Boostrap -->
 <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- bootbox.js -->
+<script type="text/javascript" src="/lib/bootbox.js/bootbox.js"></script>
 
 <!-- Load the home module -->
 <script type="text/javascript" src="/home/home.client.module.js"></script>
@@ -24,6 +30,12 @@
 <script type="text/javascript" src="/users/services/authentication.client.service.js"></script>
 <script type="text/javascript" src="/users/services/users.client.service.js"></script>
 <script type="text/javascript" src="/users/directives/email-validator.client.directive.js"></script>
+
+<!-- Load the cart module -->
+<script type="text/javascript" src="/cart/cart.client.module.js"></script>
+<script type="text/javascript" src="/cart/controllers/cart.client.controller.js"></script>
+<script type="text/javascript" src="/cart/services/cart.client.service.js"></script>
+<script type="text/javascript" src="/cart/services/cart.client.js"></script>
 
 <!-- Books module -->
 <script type="text/javascript" src="/books/books.client.module.js"></script>

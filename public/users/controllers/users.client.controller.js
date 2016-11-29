@@ -14,13 +14,13 @@
 angular.module('users')
        .controller('UsersController', UsersController);
 
-UsersController.$inject = ['$scope', '$location', '$http', 'Authentication', 'UserService'];
+UsersController.$inject = ['$scope', '$location', '$http', '$filter', 'Authentication', 'UserService'];
 
-function UsersController($scope, $location, $http, Authentication, UserService) {
+function UsersController($scope, $location, $http, $filter, Authentication, UserService) {
     // Bind the controller to a variable
     let vm = this;
 
-    // Initialize the controller variable
+    // Initialize the controller variables
     vm.authentication = Authentication;
 
     // Initialize scope variables
@@ -101,11 +101,12 @@ function UsersController($scope, $location, $http, Authentication, UserService) 
         });
     };
 
+    /*
     $scope.validateEmail = function(email) {
         return $http({
             url: '/users/validate_email',
             method: 'POST',
             data: { email: email }
         });
-    };
+    }; */
 }

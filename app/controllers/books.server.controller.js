@@ -20,40 +20,46 @@ exports.list = function(req, res) {
                    ? { $text: { $search: req.body.title } }
                    : {};
 
+    // Set the request limit on searches
+    const pageLimit = 8;
+    // Set the current page
+    let currentPage = req.body.page ? req.body.page : 0;
+    // Initialize page number
+    let pages = 0;
+    // Initialize total count number
+    let bookCount = 0;
+    // Calculate the page offset
+    let offset = pageLimit * currentPage;
+
     Book.find(criteria)
+        .sort('-price')
         .count()
         .exec()
         .then(function(count) {
-            // Set the request limit on searches
-            const pageLimit = 8;
-            // Set the current page
-            let currentPage = req.body.page ? req.body.page : 0;
+            // Save the count
+            bookCount = count;
             // Find the number of pages
-            let pages = Math.floor(count / pageLimit) + 1;
-            // Calculate the page offset
-            let offset = pageLimit * currentPage;
-
-            Book.find(criteria)
+            pages = Math.floor(count / pageLimit) + 1;    
+            
+            return Book.find(criteria)
                 .sort('-price')
                 .limit(pageLimit)
                 .skip(offset)
-                .exec()
-                .then(function(data) {
-                    let books = { 
-                        books: data,
-                        pages: pages,
-                        totalBooks: count,
-                        currentPage: currentPage
-                    };
-                    return res.json(books);
-                }, function(err) {
-                    return res.status(500).send({
-                        message: 'Server Error'
-                    });
-                });
-        }, function(err) {
+                .exec();
+        })
+        .then(function(data) {
+            let books = {
+                books: data,
+                pages: pages,
+                totalBooks: bookCount,
+                currentPage: currentPage
+            };
+
+            return res.json(books);
+        })
+        .catch(function(err) {
             return res.status(500).send({
-                message: 'Server Error'
+                message: err
             });
         });
 };
@@ -110,20 +116,11 @@ exports.bookById = function(req, res, next, id) {
             }
 
             req.book = book;
-            next();
-        }, function(err) {
-            return next(err);
-        });
+        })
+        .catch(function(err) {
+            return res.status(500).send({
+                message: err
+            });
+        })
+        .finally(next);
 };
-/*
-exports.titleSearch = function(req, res) {
-    Book.find({ $text: { $search: req.body.title } })
-    .then(function(data) {
-        let books = { books: data };
-        return res.json(books);
-    }, function(err) {
-        return res.status(500).send({
-            message: 'An error occurred.'
-        });
-    });
-};*/
