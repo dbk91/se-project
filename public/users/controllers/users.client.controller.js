@@ -83,22 +83,24 @@ function UsersController($scope, $location, $http, $filter, Authentication, User
         // Clear the error fields
         $scope.errors = null;
 
-        user.$login(function(response) {
-            // To show success message
-            $scope.success = true;
-            // Assign the return message and display in DOM
-            $scope.message = response.message;
-            $scope.disable = false;
-            // Gets the response from the server and binds it to the client
-            vm.authentication.user = response.user;
-        }, function(errorResponse) { // Failure callback
-            // To show failure message
-            $scope.success = false;
-            // Server error
-            $scope.message = errorResponse.data.message;
-            // Re-enable the form
-            $scope.disable = false;
-        });
+        user.$login()
+            .then(function(res) {
+                // Apply success attribute
+                $scope.success = true;
+                // Assign the return message and display in DOM
+                $scope.message = res.message;
+                $scope.disable = false;
+                // Get the response from the server and binds it to the client
+                vm.authentication.user = res.user;
+            })
+            .catch(function(err) {
+                // Apply failure attribute
+                $scope.success = false;
+                // Get response
+                $scope.message = err.data.message;
+                // Re-enable the form
+                $scope.disable = false;
+            });
     };
 
     /*
