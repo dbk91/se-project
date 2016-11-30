@@ -133,7 +133,7 @@ function CartController($scope, $routeParams, $filter, Cart, CartService) {
             });
     };
 
-    $scope.deleteCart = function(req, res) {
+    $scope.deleteCart = function() {
         // Initialize the User service
         let cart = new CartService();
 
