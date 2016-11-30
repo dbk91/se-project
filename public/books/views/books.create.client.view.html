@@ -31,11 +31,11 @@
           <div class="form-group text-center">
             <button class="btn btn-lg btn-primary" data-ng-disabled="disable">
               <!-- Normal button text -->
-              <span ng-hide="disable">List Book</span>
+              <span data-ng-hide="disable">List Book</span>
               <!-- Loading spinner while form is disabled -->
-              <i class="fa fa-spinner fa-spin" ng-show="disable"></i>
+              <i class="fa fa-spinner fa-spin" data-ng-show="disable"></i>
               <!-- Loading text for screen readers only -->
-              <span class="sr-only" ng-show="disable">Loading...</span>
+              <span class="sr-only" data-ng-show="disable">Loading...</span>
             </button>
           </div>
         </form>
