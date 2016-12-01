@@ -28,7 +28,7 @@ exports.register = function(req, res, info) {
         // Attempt to save the user to the DB
         user.save(function(err) {
             // Email already exists
-            if (err.name === 'MongoError' && err.code === 11000) {
+            if (err && err.name === 'MongoError' && err.code === 11000) {
                 return res.status(409).send({
                     success: false,
                     message: 'An error occurred.',
