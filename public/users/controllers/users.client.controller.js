@@ -14,9 +14,9 @@
 angular.module('users')
        .controller('UsersController', UsersController);
 
-UsersController.$inject = ['$scope', '$location', '$http', '$filter', '$ngBootbox', 'Authentication', 'UserService'];
+UsersController.$inject = ['$scope', '$location', '$ngBootbox', 'Authentication', 'UserService'];
 
-function UsersController($scope, $location, $http, $filter, $ngBootbox, Authentication, UserService) {
+function UsersController($scope, $location, $ngBootbox, Authentication, UserService) {
     // Bind the controller to a variable
     let vm = this;
 
@@ -130,34 +130,5 @@ function UsersController($scope, $location, $http, $filter, $ngBootbox, Authenti
         $scope.errors = null;
 
         return user.$login();
-        /*
-            .then(function(res) {
-                // Apply success attribute
-                $scope.success = true;
-                // Assign the return message and display in DOM
-                $scope.message = res.message;
-                $scope.disable = false;
-                // Get the response from the server and binds it to the client
-                vm.authentication.user = res.user;
-            })
-            .catch(function(err) {
-                // Apply failure attribute
-                $scope.success = false;
-                // Get response
-                $scope.message = err.data.message;
-                // Re-enable the form
-                $scope.disable = false;
-                // Prevent form from closing
-                return false;
-            });*/
     };
-
-    /*
-    $scope.validateEmail = function(email) {
-        return $http({
-            url: '/users/validate_email',
-            method: 'POST',
-            data: { email: email }
-        });
-    }; */
 }

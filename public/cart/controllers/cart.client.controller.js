@@ -14,9 +14,9 @@
 angular.module('cart')
        .controller('CartController', CartController);
 
-CartController.$inject = ['$scope', '$routeParams', '$ngBootbox', '$filter', 'Cart', 'CartService'];
+CartController.$inject = ['$scope', '$routeParams', '$ngBootbox', 'Cart', 'CartService'];
 
-function CartController($scope, $routeParams, $ngBootbox, $filter, Cart, CartService) {
+function CartController($scope, $routeParams, $ngBootbox, Cart, CartService) {
     let vm = this;
 
     vm.cart = Cart;

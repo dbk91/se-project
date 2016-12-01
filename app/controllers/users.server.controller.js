@@ -13,8 +13,7 @@
 
 const User     = require('mongoose').model('User'),
       passport = require('passport'),
-      http     = require('http'),
-      parse5   = require('parse5');
+      http     = require('http');
 
 // Create a method for registration for the User Controller
 exports.register = function(req, res, info) {
@@ -115,28 +114,3 @@ exports.requiresLogin = function(req, res, next) {
         next();
     }
 };
-/*
-exports.validateEmail = function(req, res) {
-    // Success of the request
-    let success = false;
-
-    let email = req.body.email;
-
-    // Construct the post options
-    let options = {
-        host: 'www.umbc.edu',
-        port: 80,
-        path: `/search/directory/?search=${encodeURIComponent(email.toLowerCase())}`,
-        method: 'POST'
-    };
-
-    let request = http.request(options);
-
-    request.on('response', function(response) {
-        response.on('data', function(chunk) {
-            
-        });
-    });
-
-    request.end();
-};*/
