@@ -60,6 +60,8 @@ function CartController($scope, $routeParams, $ngBootbox, Cart, CartService) {
             .then(function(response) {
                 // Retreive the display cart from the server
                 let cart = response.cart;
+                // Set the controller cart
+                vm.cart = cart;
 
                 // Build the options for the display cart
                 let dialogOptions = {
