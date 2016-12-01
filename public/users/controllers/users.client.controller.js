@@ -77,39 +77,7 @@ function UsersController($scope, $location, $ngBootbox, Authentication, UserServ
             title: '<div class="text-center">Login</div>',
             backdrop: true,
             onEscape: true,
-            scope: $scope,
-            buttons: {
-                login: {
-                    label: 'Login',
-                    callback: function() {
-                        $scope.login()
-                            .then(function(res) {
-                                // Apply success attribute
-                                $scope.success = true;
-                                // Assign the return message and display in DOM
-                                $scope.message = res.message;
-                                $scope.disable = false;
-                                // Get the response from the server and binds it to the client
-                                vm.authentication.user = res.user;
-                                // Wait to close login modal
-                                setTimeout(function() {
-                                    $ngBootbox.hideAll();
-                                }, 450);
-                            })
-                            .catch(function(err) {
-                                // Apply failure attribute
-                                $scope.success = false;
-                                // Get response
-                                $scope.message = err.data.message;
-                                // Re-enable the form
-                                $scope.disable = false;
-                            });
-
-                        // Prevent window from closing by default
-                        return false;
-                    }
-                }
-            }
+            scope: $scope
         };
 
         // Open the login modal
@@ -129,6 +97,27 @@ function UsersController($scope, $location, $ngBootbox, Authentication, UserServ
         // Clear the error fields
         $scope.errors = null;
 
-        return user.$login();
+        user.$login()
+            .then(function(res) {
+                // Apply success attribute
+                $scope.success = true;
+                // Assign the return message and display in DOM
+                $scope.message = res.message;
+                $scope.disable = false;
+                // Get the response from the server and binds it to the client
+                vm.authentication.user = res.user;
+                // Wait to close login modal
+                setTimeout(function() {
+                    $ngBootbox.hideAll();
+                }, 450);
+            })
+            .catch(function(err) {
+                // Apply failure attribute
+                $scope.success = false;
+                // Get response
+                $scope.message = err.data.message;
+                // Re-enable the form
+                $scope.disable = false;
+            });
     };
 }
