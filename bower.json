@@ -23,6 +23,7 @@
     "angular-route": "^1.5.8",
     "font-awesome": "^4.7.0",
     "angular-input-masks": "^2.5.0",
-    "bootbox.js": "bootbox#^4.4.0"
+    "bootbox.js": "bootbox#^4.4.0",
+    "ngBootbox": "^0.1.4"
   }
 }

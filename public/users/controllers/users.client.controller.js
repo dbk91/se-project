@@ -14,9 +14,9 @@
 angular.module('users')
        .controller('UsersController', UsersController);
 
-UsersController.$inject = ['$scope', '$location', '$http', '$filter', 'Authentication', 'UserService'];
+UsersController.$inject = ['$scope', '$location', '$ngBootbox', 'Authentication', 'UserService'];
 
-function UsersController($scope, $location, $http, $filter, Authentication, UserService) {
+function UsersController($scope, $location, $ngBootbox, Authentication, UserService) {
     // Bind the controller to a variable
     let vm = this;
 
@@ -47,27 +47,43 @@ function UsersController($scope, $location, $http, $filter, Authentication, User
         $scope.errors = null;
 
         // Attempt to save the new user
-        user.$register(function(response) { // Success callback
-            // To show success message
-            $scope.success = true;
-            // Assign the return message and display in DOM
-            $scope.message = response.message;
-            $scope.disable = false;
-        }, function(errorResponse) { // Failure callback
-            // Multiple errors on the form submission
-            if (errorResponse.data.errors) {
-                // Assign the respective error messages
-                $scope.errors = errorResponse.data.errors;
-            // Single error message
-            } else {
-                // To show failure message
-                $scope.success = false;
-                // Server error
-                $scope.message = errorResponse.data.message;
-            }
-            // Re-enable the form
-            $scope.disable = false;
-        });
+        user.$register()
+            .then(function(res) {
+                // To show success message
+                $scope.success = true;
+                // Assign the return message and display in DOM
+                $scope.message = res.message;
+                $scope.disable = false;
+            })
+            .catch(function(err) {
+                // Multiple errors on the form submission
+                if (err.data.errors) {
+                    // Assign the respective error messages
+                    $scope.errors = err.data.errors;
+                // Single error message
+                } else {
+                    // To show failure message
+                    $scope.success = false;
+                    // Server error
+                    $scope.message = err.data.message;
+                }
+                // Re-enable the form
+                $scope.disable = false;
+            });
+    };
+
+    $scope.promptLogin = function() {
+        // Set the dialog options
+        let dialogOptions = {
+            templateUrl: 'users/views/login.client.view.html',
+            title: '<div class="text-center">Login</div>',
+            backdrop: true,
+            onEscape: true,
+            scope: $scope
+        };
+
+        // Open the login modal
+        $ngBootbox.customDialog(dialogOptions);
     };
 
     $scope.login = function() {
@@ -83,30 +99,31 @@ function UsersController($scope, $location, $http, $filter, Authentication, User
         // Clear the error fields
         $scope.errors = null;
 
-        user.$login(function(response) {
-            // To show success message
-            $scope.success = true;
-            // Assign the return message and display in DOM
-            $scope.message = response.message;
-            $scope.disable = false;
-            // Gets the response from the server and binds it to the client
-            vm.authentication.user = response.user;
-        }, function(errorResponse) { // Failure callback
-            // To show failure message
-            $scope.success = false;
-            // Server error
-            $scope.message = errorResponse.data.message;
-            // Re-enable the form
-            $scope.disable = false;
-        });
+        user.$login()
+            .then(function(res) {
+                // Apply success attribute
+                $scope.success = true;
+                // Assign the return message and display in DOM
+                $scope.message = res.message;
+                // Clear the fields
+                $scope.email    = '';
+                $scope.password = '';
+                $scope.disable = false;
+                // Get the response from the server and binds it to the client
+                vm.authentication.user = res.user;
+                // Wait to close login modal
+                setTimeout(function() {
+                    $ngBootbox.hideAll();
+                    $scope.message = '';
+                }, 450);
+            })
+            .catch(function(err) {
+                // Apply failure attribute
+                $scope.success = false;
+                // Get response
+                $scope.message = err.data.message;
+                // Re-enable the form
+                $scope.disable = false;
+            });
     };
-
-    /*
-    $scope.validateEmail = function(email) {
-        return $http({
-            url: '/users/validate_email',
-            method: 'POST',
-            data: { email: email }
-        });
-    }; */
 }

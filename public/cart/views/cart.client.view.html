@@ -1,0 +1,26 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th class="raleway">Title</th>
+      <th class="raleway">Price</th>
+      <th class="raleway">Quantity</th>
+      <th class="raleway">Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-ng-if="cc.cart.items.length === 0">
+      <td colspan=4 class="text-center raleway" style="border-bottom: none;">
+        No items in cart.
+      </td>
+    </tr>
+    <tr data-ng-repeat="book in cc.cart.items">
+      <td class="raleway">{{ book.title | limitTo:45 }}{{ book.title.length > 45 ? '...' : '' }}</td>
+      <td class="raleway">{{ book.price | currency }}</td>
+      <td class="text-center raleway">{{ book.qty }}</td>
+      <td class="text-center">&times</td>
+    </tr>
+  </tbody>
+</table>
+<div class="text-right">
+  <h3>Total: {{ cc.cart.total | currency }}</h3>
+</div>
