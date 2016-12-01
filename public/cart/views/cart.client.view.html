@@ -14,8 +14,8 @@
       </td>
     </tr>
     <tr data-ng-repeat="book in cc.cart.items">
-      <td class="raleway">{{ book.title }}</td>
-      <td class="raleway">{{ book.price }}</td>
+      <td class="raleway">{{ book.title | limitTo:45 }}{{ book.title.length > 45 ? '...' : '' }}</td>
+      <td class="raleway">{{ book.price | currency }}</td>
       <td class="text-center raleway">{{ book.qty }}</td>
       <td class="text-center">&times</td>
     </tr>
