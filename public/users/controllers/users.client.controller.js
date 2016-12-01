@@ -14,9 +14,9 @@
 angular.module('users')
        .controller('UsersController', UsersController);
 
-UsersController.$inject = ['$scope', '$location', '$http', '$filter', 'Authentication', 'UserService'];
+UsersController.$inject = ['$scope', '$location', '$http', '$filter', '$ngBootbox', 'Authentication', 'UserService'];
 
-function UsersController($scope, $location, $http, $filter, Authentication, UserService) {
+function UsersController($scope, $location, $http, $filter, $ngBootbox, Authentication, UserService) {
     // Bind the controller to a variable
     let vm = this;
 
@@ -70,6 +70,52 @@ function UsersController($scope, $location, $http, $filter, Authentication, User
         });
     };
 
+    $scope.promptLogin = function() {
+        // Set the dialog options
+        let dialogOptions = {
+            templateUrl: 'users/views/login.client.view.html',
+            title: '<div class="text-center">Login</div>',
+            backdrop: true,
+            onEscape: true,
+            scope: $scope,
+            buttons: {
+                login: {
+                    label: 'Login',
+                    callback: function() {
+                        $scope.login()
+                            .then(function(res) {
+                                // Apply success attribute
+                                $scope.success = true;
+                                // Assign the return message and display in DOM
+                                $scope.message = res.message;
+                                $scope.disable = false;
+                                // Get the response from the server and binds it to the client
+                                vm.authentication.user = res.user;
+                                // Wait to close login modal
+                                setTimeout(function() {
+                                    $ngBootbox.hideAll();
+                                }, 450);
+                            })
+                            .catch(function(err) {
+                                // Apply failure attribute
+                                $scope.success = false;
+                                // Get response
+                                $scope.message = err.data.message;
+                                // Re-enable the form
+                                $scope.disable = false;
+                            });
+
+                        // Prevent window from closing by default
+                        return false;
+                    }
+                }
+            }
+        };
+
+        // Open the login modal
+        $ngBootbox.customDialog(dialogOptions);
+    };
+
     $scope.login = function() {
         // Disable the form
         $scope.disable = true;
@@ -83,7 +129,8 @@ function UsersController($scope, $location, $http, $filter, Authentication, User
         // Clear the error fields
         $scope.errors = null;
 
-        user.$login()
+        return user.$login();
+        /*
             .then(function(res) {
                 // Apply success attribute
                 $scope.success = true;
@@ -100,7 +147,9 @@ function UsersController($scope, $location, $http, $filter, Authentication, User
                 $scope.message = err.data.message;
                 // Re-enable the form
                 $scope.disable = false;
-            });
+                // Prevent form from closing
+                return false;
+            });*/
     };
 
     /*

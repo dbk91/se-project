@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="form-group">
+      <label>E-mail</label>
+      <input class="form-control" type="email" name="email" data-ng-model="email" data-ng-disabled="disable" placeholder="Enter Your UMBC E-mail Address" autocomplete="off">
+    </div>
+    <p class="text-danger" data-ng-bind="errors.email.message"></p>
+    <div class="form-group">
+      <label>Password</label>
+      <input class="form-control" type="password" name="password" data-ng-model="password" data-ng-disabled="disable" placeholder="Enter Your Password">
+    </div>
+    <p class="text-danger" data-ng-bind="errors.password.message"></p>
+    <div>
+      <p class="text-center" data-ng-class="success == true ? 'text-success' : 'text-danger'" data-ng-bind="message"></p>
+    </div>
+  </div>
+</div>
