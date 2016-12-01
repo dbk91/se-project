@@ -103,12 +103,16 @@ function UsersController($scope, $location, $ngBootbox, Authentication, UserServ
                 $scope.success = true;
                 // Assign the return message and display in DOM
                 $scope.message = res.message;
+                // Clear the fields
+                $scope.email    = '';
+                $scope.password = '';
                 $scope.disable = false;
                 // Get the response from the server and binds it to the client
                 vm.authentication.user = res.user;
                 // Wait to close login modal
                 setTimeout(function() {
                     $ngBootbox.hideAll();
+                    $scope.message = '';
                 }, 450);
             })
             .catch(function(err) {
