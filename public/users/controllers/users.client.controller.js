@@ -47,27 +47,29 @@ function UsersController($scope, $location, $ngBootbox, Authentication, UserServ
         $scope.errors = null;
 
         // Attempt to save the new user
-        user.$register(function(response) { // Success callback
-            // To show success message
-            $scope.success = true;
-            // Assign the return message and display in DOM
-            $scope.message = response.message;
-            $scope.disable = false;
-        }, function(errorResponse) { // Failure callback
-            // Multiple errors on the form submission
-            if (errorResponse.data.errors) {
-                // Assign the respective error messages
-                $scope.errors = errorResponse.data.errors;
-            // Single error message
-            } else {
-                // To show failure message
-                $scope.success = false;
-                // Server error
-                $scope.message = errorResponse.data.message;
-            }
-            // Re-enable the form
-            $scope.disable = false;
-        });
+        user.$register()
+            .then(function(res) {
+                // To show success message
+                $scope.success = true;
+                // Assign the return message and display in DOM
+                $scope.message = res.message;
+                $scope.disable = false;
+            })
+            .catch(function(err) {
+                // Multiple errors on the form submission
+                if (err.data.errors) {
+                    // Assign the respective error messages
+                    $scope.errors = err.data.errors;
+                // Single error message
+                } else {
+                    // To show failure message
+                    $scope.success = false;
+                    // Server error
+                    $scope.message = err.data.message;
+                }
+                // Re-enable the form
+                $scope.disable = false;
+            });
     };
 
     $scope.promptLogin = function() {
