@@ -19,7 +19,6 @@ const users    = require('../../app/controllers/users.server.controller'),
 module.exports = function(app) {
     // Define the '/users' route
     app.route('/api/users')
-       .get(users.requiresLogin, users.list)
        .post(users.register);
 
     // Define the '/users/login' route
@@ -29,7 +28,4 @@ module.exports = function(app) {
     app.route('/api/users/logout')
        .get(users.logout)
        .post(users.logout);
-    /*
-    app.route('/api/users/validate_email')
-       .post(users.validateEmail);*/
 };

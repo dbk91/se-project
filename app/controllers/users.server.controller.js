@@ -64,12 +64,6 @@ exports.register = function(req, res, info) {
     }
 };
 
-exports.list = function(req, res, next) {
-    return res.status(200).send({
-        message: 'list users here'
-    });
-};
-
 exports.login = function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
         if (err) {
