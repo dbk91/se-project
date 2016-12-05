@@ -27,6 +27,14 @@ function UserService($resource) {
                     login: {
                         method: 'POST',
                         url: '/api/users/login'
+                    },
+                    me: {
+                        method: 'GET',
+                        url: '/api/users/me'
+                    },
+                    update: {
+                        method: 'PUT',
+                        url: '/api/users/me'
                     }
                 });
 

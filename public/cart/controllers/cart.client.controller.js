@@ -14,22 +14,33 @@
 angular.module('cart')
        .controller('CartController', CartController);
 
-CartController.$inject = ['$scope', '$routeParams', '$ngBootbox', 'Cart', 'CartService'];
+CartController.$inject = ['$scope', '$routeParams', '$location', '$ngBootbox', 'Cart', 'CartService', 'UserService'];
 
-function CartController($scope, $routeParams, $ngBootbox, Cart, CartService) {
+function CartController($scope, $routeParams, $location, $ngBootbox, Cart, CartService, UserService) {
     let vm = this;
 
     vm.cart = Cart;
 
-    $scope.addToCart = function() {
+    // TODO: Methods and method naming are confusing, find a more elegant and
+    // RESTful way to delete on book from the cart
+    $scope.addToCart = function(book) {
         // Disable the form on submission
         $scope.disable = true;
-        
-        // Get the book ID
-        let cart = new CartService({
-            bookId: $routeParams.bookId
-        });
+        // Initialize the cart
+        let cart = null;
 
+        if (typeof book === 'undefined') {
+            cart = new CartService({
+                bookId: $routeParams.bookId,
+                add: true // Flag to add to the cart, see note above method
+            });
+        } else {
+            cart = new CartService({
+                bookId: book.id,
+                add: false
+            });
+        }
+        
         cart.$addToCart()
             .then(function(res) {
                 // To show success message
@@ -52,11 +63,13 @@ function CartController($scope, $routeParams, $ngBootbox, Cart, CartService) {
     };
 
     $scope.readCart = function() {
-        // Intialize the User service
-        let user = new CartService();
-        
+        // Initialize the Cart service
+        let cart = new CartService();
+        // Initialize the User service
+        let user = new UserService();
+
         // Fetch the cart information
-        user.$readCart()
+        cart.$readCart()
             .then(function(response) {
                 // Retreive the display cart from the server
                 let cart = response.cart;
@@ -80,20 +93,34 @@ function CartController($scope, $routeParams, $ngBootbox, Cart, CartService) {
                         confirm: {
                             label: 'Checkout',
                             callback: function() {
-                                console.log('go to checkout');
+                                user.$me()
+                                    .then(function(res) {
+                                        // Hides the modal and moves user to checkout
+                                        // Throws an Angular error in browser console, but still 'works'
+                                        $ngBootbox.hideAll();
+                                        $location.url('/users/checkout');
+                                        return $scope.$apply();
+                                    })
+                                    .catch(function(err) {
+                                        $scope.message = err.data.message;
+                                    });
+
+                                return false;
                             }
                         }
                     }
                 };
 
-                // Open the cart modal
-                $ngBootbox.customDialog(dialogOptions);
+                // Open the cart modal if not on the checkout page
+                if ($location.url() != '/users/checkout') {
+                    $ngBootbox.customDialog(dialogOptions);
+                }
             });
     };
 
     $scope.deleteCart = function() {
         // Initialize the User service
-        let cart = new CartService();
+        cart = new CartService();
 
         // Delete items in the cart
         cart.$deleteCart()

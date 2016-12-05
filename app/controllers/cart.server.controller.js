@@ -52,10 +52,21 @@ exports.updateCart = function(req, res, next) {
                 });
             }
 
+            // TODO: Change the routes to a more RESTful way of removing items from cart
             if (cart[bookId]) {
-                cart[bookId].qty++;
+                if (req.body.add) {
+                    cart[bookId].qty++;
+                } else {
+                    // Remove from cart
+                    cart[bookId].qty--;
+                    // Remove the object and validate no negative values
+                    if (cart[bookId].qty <= 0) {
+                        delete cart[bookId];
+                    }
+                }
             } else {
                 cart[bookId] = {
+                    id: book._id,
                     title: book.title,
                     price: book.price,
                     qty: 1
@@ -78,14 +89,9 @@ exports.deleteCart = function(req, res, next) {
     // Instantiate the cart if not defined
     req.session.cart = req.session.cart || {};
 
-    // Check if a book ID was specified
-    if (req.body.bookId) {
-        let bookId = req.body.bookId;
-    // Clear the whole cart if a book was not specified
-    } else {
-        req.session.cart = {};
-        return res.status(200).send({
-            success: true
-        });
-    }
+    // Clear the whole cart
+    req.session.cart = {};
+    return res.status(200).send({
+        success: true
+    });
 }

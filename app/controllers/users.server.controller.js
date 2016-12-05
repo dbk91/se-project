@@ -26,36 +26,38 @@ exports.register = function(req, res, info) {
         user.provider = 'local';
 
         // Attempt to save the user to the DB
-        user.save(function(err) {
-            // Email already exists
-            if (err && err.name === 'MongoError' && err.code === 11000) {
-                return res.status(409).send({
-                    success: false,
-                    message: 'An error occurred.',
-                    errors: {
-                        email: {
-                            message: 'The provided e-mail already exists in our records'
-                        }
-                    }
-                });
-            // Check the error
-            } else if (err && err.errors) {
-                // Return the 400 'bad request' code and failure messages
-                return res.status(400).send({
-                    errors: err.errors
-                });
-            } else if (err) {
-                // Return the 400 'bad request' code and failure message
-                return res.status(400).send({
-                    message: 'An error occurred.'
-                });
-            } else {
+        user.save()
+            .then(function() {
                 // Return the 200 'okay' status code and success message
                 return res.status(200).send({
                     message: 'Your account has been registered!'
                 });
-            }
-        });
+            })
+            .catch(function(err) {
+                // Email already exists
+                if (err && err.name === 'MongoError' && err.code === 11000) {
+                    return res.status(409).send({
+                        success: false,
+                        message: 'An error occurred.',
+                        errors: {
+                            email: {
+                                message: 'The provided e-mail already exists in our records'
+                            }
+                        }
+                    });
+                // Check the error
+                } else if (err && err.errors) {
+                    // Return the 400 'bad request' code and failure messages
+                    return res.status(400).send({
+                        errors: err.errors
+                    });
+                } else {
+                    // Return the 400 'bad request' code and failure message
+                    return res.status(400).send({
+                        message: 'An error occurred.'
+                    });
+                }
+            });
     } else {
         // Return to the home page if logged in -- 401 Forbidden
         return res.status(401).send({
@@ -64,10 +66,65 @@ exports.register = function(req, res, info) {
     }
 };
 
-exports.list = function(req, res, next) {
-    return res.status(200).send({
-        message: 'list users here'
-    });
+exports.me = function(req, res) {
+    // Create a user object to securely tranfer data
+    let user = null;
+
+    if (req.user) {
+        user = {
+            email: req.user.email,
+            first: req.user.name.first,
+            last: req.user.name.last,
+            displayName: req.user.name.full
+        };
+
+        return res.json(user);
+    } else {
+        return res.status(403).send({
+            message: 'Must be logged in to access this feature'
+        });
+    }
+};
+
+exports.edit = function(req, res) {
+    // Get the user
+    let user = req.user;
+
+    if (user) {
+        // Update the user fields
+        user.name.first  = req.body.name.first;
+        user.name.last   = req.body.name.last;
+        user.email       = req.body.email;
+        user.lastUpdated = Date.now();
+
+        user.save()
+            .then(function() {
+                req.login(user, function(err) {
+                    if (err) {
+                        return res.status(400).send(err);
+                    } else {
+                        return res.json({
+                            success: true,
+                            user: user,
+                            message: 'Account updated!'
+                        });
+                    }
+                });
+
+                // TODO: Fix login structure to better fit the Bluebird promise structure
+                // Removes warning
+                return null;
+            })
+            .catch(function(err) {
+                return res.status(422).send({
+                    message: err
+                });
+            });
+    } else {
+        res.status(401).send({
+            message: 'You must be signed in to access this feature'
+        });
+    }
 };
 
 exports.login = function(req, res, next) {
