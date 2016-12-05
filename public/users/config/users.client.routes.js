@@ -18,7 +18,7 @@ function config($routeProvider) {
         .when('/users/register', {
             templateUrl: 'users/views/register.client.view.html'
         })
-        .when('/users/:id', {
+        .when('/users/me', {
             templateUrl: 'users/views/account.client.view.html'
         })
         .when('/users', {

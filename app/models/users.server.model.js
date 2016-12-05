@@ -76,7 +76,7 @@ const UserSchema = new Schema({
         // Default to the current time on creation
         default: Date.now
     },
-    last_updated: {
+    lastUpdated: {
         type: Date
     }
 });

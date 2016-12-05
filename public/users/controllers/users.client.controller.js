@@ -126,4 +126,60 @@ function UsersController($scope, $location, $ngBootbox, Authentication, UserServ
                 $scope.disable = false;
             });
     };
+
+    $scope.update = function() {
+        // Disable the form
+        $scope.disable = true;
+
+        // Get the form data
+        let user = new UserService({
+            email: this.email,
+            name: {
+                first: this.firstName,
+                last: this.lastName
+            }
+        });
+
+        user.$update()
+            .then(function(res) {
+                $scope.errors = null;
+                $scope.success = true;
+                $scope.message = res.message;
+                vm.authentication.user = res.user;
+            })
+            .catch(function(err) {
+                // Multiple errors on the form submission
+                if (err.data.message.errors) {
+                    // Assign the respective error messages
+                    $scope.errors = err.data.message.errors;
+                // Single error message
+                } else {
+                    // To show failure message
+                    $scope.success = false;
+                    // Server error
+                    $scope.message = err.data.message;
+                }
+                // Re-enable the form
+                $scope.disable = false;
+            })
+            .finally(function() {
+                $scope.disable = false;
+            });
+    };
+
+    $scope.me = function() {
+        // Create a new instance of the service
+        let user = new UserService();
+
+        // Get the user info from the server
+        user.$me()
+            .then(function(res) {
+                $scope.email     = res.email;
+                $scope.firstName = res.first;
+                $scope.lastName  = res.last;
+            })
+            .catch(function(err) {
+                console.error(err);
+            });
+    };
 }

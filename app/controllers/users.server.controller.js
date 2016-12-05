@@ -64,7 +64,61 @@ exports.register = function(req, res, info) {
     }
 };
 
+exports.me = function(req, res) {
+    // Create a user object to securely tranfer data
+    let user = null;
+
+    if (req.user) {
+        user = {
+            email: req.user.email,
+            first: req.user.name.first,
+            last: req.user.name.last,
+            displayName: req.user.name.full
+        };
+    }
+
+    res.json(user || null);
+};
+
+exports.edit = function(req, res) {
+    // Get the user
+    let user = req.user;
+
+    if (user) {
+        // Update the user fields
+        user.name.first  = req.body.name.first;
+        user.name.last   = req.body.name.last;
+        user.email       = req.body.email;
+        user.lastUpdated = Date.now();
+
+        user.save(function(err) {
+            if (err) {
+                return res.status(422).send({
+                    message: err
+                });
+            } else {
+                req.login(user, function(err) {
+                    if (err) {
+                        res.status(400).send(err);
+                    } else {
+                        res.json({
+                            success: true,
+                            user: user,
+                            message: 'Account updated!'
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        res.status(401).send({
+            message: 'You must be signed in to access this feature'
+        });
+    }
+};
+
 exports.login = function(req, res, next) {
+    console.log('test');
     passport.authenticate('local', function(err, user, info) {
         if (err) {
             res.status(500).send(info);

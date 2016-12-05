@@ -21,6 +21,10 @@ module.exports = function(app) {
     app.route('/api/users')
        .post(users.register);
 
+    app.route('/api/users/me')
+       .get(users.me)
+       .put(users.edit);
+
     // Define the '/users/login' route
     app.route('/api/users/login')
        .post(users.login);

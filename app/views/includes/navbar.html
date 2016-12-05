@@ -14,6 +14,7 @@
         <li data-ng-show="!uc.authentication.user"><a href="" data-ng-click="promptLogin()">Login</a></li>
         <li data-ng-show="!uc.authentication.user"><a href="/#/users/register">Register</a></li>
         <li data-ng-show="uc.authentication.user"><p class="navbar-text">Welcome, {{ uc.authentication.user.name.first }}</p></li>
+        <li data-ng-show="uc.authentication.user"><a href="/#/users/me">Edit Account</a></li>
         <li data-ng-show="uc.authentication.user"><a href="/api/users/logout">Logout</a><li>
           <section>
             <div class="navbar-text" data-ng-click="readCart()">
