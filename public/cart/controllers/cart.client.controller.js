@@ -21,15 +21,26 @@ function CartController($scope, $routeParams, $ngBootbox, Cart, CartService) {
 
     vm.cart = Cart;
 
-    $scope.addToCart = function() {
+    // TODO: Methods and method naming are confusing, find a more elegant and
+    // RESTful way to delete on book from the cart
+    $scope.addToCart = function(book) {
         // Disable the form on submission
         $scope.disable = true;
-        
-        // Get the book ID
-        let cart = new CartService({
-            bookId: $routeParams.bookId
-        });
+        // Initialize the cart
+        let cart = null;
 
+        if (typeof book === 'undefined') {
+            cart = new CartService({
+                bookId: $routeParams.bookId,
+                add: true // Flag to add to the cart, see note above method
+            });
+        } else {
+            cart = new CartService({
+                bookId: book.id,
+                add: false
+            });
+        }
+        
         cart.$addToCart()
             .then(function(res) {
                 // To show success message
@@ -91,9 +102,9 @@ function CartController($scope, $routeParams, $ngBootbox, Cart, CartService) {
             });
     };
 
-    $scope.deleteCart = function() {
+    $scope.deleteCart = function(book) {
         // Initialize the User service
-        let cart = new CartService();
+        cart = new CartService();
 
         // Delete items in the cart
         cart.$deleteCart()
