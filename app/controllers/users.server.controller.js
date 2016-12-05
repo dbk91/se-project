@@ -118,7 +118,6 @@ exports.edit = function(req, res) {
 };
 
 exports.login = function(req, res, next) {
-    console.log('test');
     passport.authenticate('local', function(err, user, info) {
         if (err) {
             res.status(500).send(info);
