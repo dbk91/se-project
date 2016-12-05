@@ -26,36 +26,38 @@ exports.register = function(req, res, info) {
         user.provider = 'local';
 
         // Attempt to save the user to the DB
-        user.save(function(err) {
-            // Email already exists
-            if (err && err.name === 'MongoError' && err.code === 11000) {
-                return res.status(409).send({
-                    success: false,
-                    message: 'An error occurred.',
-                    errors: {
-                        email: {
-                            message: 'The provided e-mail already exists in our records'
-                        }
-                    }
-                });
-            // Check the error
-            } else if (err && err.errors) {
-                // Return the 400 'bad request' code and failure messages
-                return res.status(400).send({
-                    errors: err.errors
-                });
-            } else if (err) {
-                // Return the 400 'bad request' code and failure message
-                return res.status(400).send({
-                    message: 'An error occurred.'
-                });
-            } else {
+        user.save()
+            .then(function() {
                 // Return the 200 'okay' status code and success message
                 return res.status(200).send({
                     message: 'Your account has been registered!'
                 });
-            }
-        });
+            })
+            .catch(function(err) {
+                // Email already exists
+                if (err && err.name === 'MongoError' && err.code === 11000) {
+                    return res.status(409).send({
+                        success: false,
+                        message: 'An error occurred.',
+                        errors: {
+                            email: {
+                                message: 'The provided e-mail already exists in our records'
+                            }
+                        }
+                    });
+                // Check the error
+                } else if (err && err.errors) {
+                    // Return the 400 'bad request' code and failure messages
+                    return res.status(400).send({
+                        errors: err.errors
+                    });
+                } else {
+                    // Return the 400 'bad request' code and failure message
+                    return res.status(400).send({
+                        message: 'An error occurred.'
+                    });
+                }
+            });
     } else {
         // Return to the home page if logged in -- 401 Forbidden
         return res.status(401).send({
@@ -91,25 +93,29 @@ exports.edit = function(req, res) {
         user.email       = req.body.email;
         user.lastUpdated = Date.now();
 
-        user.save(function(err) {
-            if (err) {
-                return res.status(422).send({
-                    message: err
-                });
-            } else {
+        user.save()
+            .then(function() {
                 req.login(user, function(err) {
                     if (err) {
-                        res.status(400).send(err);
+                        return res.status(400).send(err);
                     } else {
-                        res.json({
+                        return res.json({
                             success: true,
                             user: user,
                             message: 'Account updated!'
                         });
                     }
                 });
-            }
-        });
+
+                // TODO: Fix login structure to better fit the Bluebird promise structure
+                // Removes warning
+                return null;
+            })
+            .catch(function(err) {
+                return res.status(422).send({
+                    message: err
+                });
+            });
     } else {
         res.status(401).send({
             message: 'You must be signed in to access this feature'
