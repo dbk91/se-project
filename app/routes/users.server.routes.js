@@ -25,6 +25,9 @@ module.exports = function(app) {
        .get(users.me)
        .put(users.edit);
 
+    app.route('/api/users/checkout')
+       .get(users.requiresLogin);
+
     // Define the '/users/login' route
     app.route('/api/users/login')
        .post(users.login);

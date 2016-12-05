@@ -77,9 +77,13 @@ exports.me = function(req, res) {
             last: req.user.name.last,
             displayName: req.user.name.full
         };
-    }
 
-    res.json(user || null);
+        return res.json(user);
+    } else {
+        return res.status(403).send({
+            message: 'Must be logged in to access this feature'
+        });
+    }
 };
 
 exports.edit = function(req, res) {

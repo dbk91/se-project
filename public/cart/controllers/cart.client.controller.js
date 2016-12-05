@@ -14,9 +14,9 @@
 angular.module('cart')
        .controller('CartController', CartController);
 
-CartController.$inject = ['$scope', '$routeParams', '$ngBootbox', 'Cart', 'CartService'];
+CartController.$inject = ['$scope', '$routeParams', '$location', '$ngBootbox', 'Cart', 'CartService', 'UserService'];
 
-function CartController($scope, $routeParams, $ngBootbox, Cart, CartService) {
+function CartController($scope, $routeParams, $location, $ngBootbox, Cart, CartService, UserService) {
     let vm = this;
 
     vm.cart = Cart;
@@ -63,11 +63,13 @@ function CartController($scope, $routeParams, $ngBootbox, Cart, CartService) {
     };
 
     $scope.readCart = function() {
-        // Intialize the User service
-        let user = new CartService();
-        
+        // Initialize the Cart service
+        let cart = new CartService();
+        // Initialize the User service
+        let user = new UserService();
+
         // Fetch the cart information
-        user.$readCart()
+        cart.$readCart()
             .then(function(response) {
                 // Retreive the display cart from the server
                 let cart = response.cart;
@@ -91,18 +93,32 @@ function CartController($scope, $routeParams, $ngBootbox, Cart, CartService) {
                         confirm: {
                             label: 'Checkout',
                             callback: function() {
-                                console.log('go to checkout');
+                                user.$me()
+                                    .then(function(res) {
+                                        // Hides the modal and moves user to checkout
+                                        // Throws an Angular error in browser console, but still 'works'
+                                        $ngBootbox.hideAll();
+                                        $location.url('/users/checkout');
+                                        return $scope.$apply();
+                                    })
+                                    .catch(function(err) {
+                                        $scope.message = err.data.message;
+                                    });
+
+                                return false;
                             }
                         }
                     }
                 };
 
-                // Open the cart modal
-                $ngBootbox.customDialog(dialogOptions);
+                // Open the cart modal if not on the checkout page
+                if ($location.url() != '/users/checkout') {
+                    $ngBootbox.customDialog(dialogOptions);
+                }
             });
     };
 
-    $scope.deleteCart = function(book) {
+    $scope.deleteCart = function() {
         // Initialize the User service
         cart = new CartService();
 
